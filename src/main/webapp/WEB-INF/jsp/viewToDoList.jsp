@@ -8,13 +8,10 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <style>
         a {
@@ -58,18 +55,19 @@
     </table>
     <a href="/addToDoItem" class="btn btn-primary btn-block">Add New ToDo Item</a>
 </div>
-<script th:inline="javascript">
-    window.onload = function () {
-
+<script>
+    $(document).ready(function () {
         var msg = "${message}";
-        if (msg == "Save Success") {
-            Command: toastr["success"]("Item added successfully!!")
-        } else if (msg == "Delete Success") {
-            Command: toastr["success"]("Item deleted successfully!!")
-        } else if (msg == "Delete Failure") {
-            Command: toastr["error"]("Some error occurred, couldn't delete item")
-        } else if (msg == "Edit Success") {
-            Command: toastr["success"]("Item updated successfully!!")
+        if (msg === "Save Success") {
+            toastr.success("Item added successfully!!");
+        } else if (msg === "Delete Success") {
+            toastr.success("Item deleted successfully!!");
+        } else if (msg === "Delete Failure") {
+            toastr.error("Some error occurred, couldn't delete item");
+        } else if (msg === "Edit Success" || msg === "Update Success") {
+            toastr.success("Item updated successfully!!");
+        } else if (msg === "Update Failure") {
+            toastr.error("Some error occurred, couldn't update item");
         }
 
         toastr.options = {
@@ -88,7 +86,7 @@
             "showMethod": "fadeIn",
             "hideMethod": "fadeOut"
         };
-    };
+    });
 </script>
 </body>
 </html>

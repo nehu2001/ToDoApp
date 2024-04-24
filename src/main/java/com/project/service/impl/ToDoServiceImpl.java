@@ -30,12 +30,7 @@ public class ToDoServiceImpl implements ToDoService {
     @Override
     public ToDo findItemsById(Integer id) {
         List<ToDo> toDo = toDoRepository.findToDoById(id);
-        log.debug("todo: {}", toDo);
-        ToDo ids = toDo.get(0);
-
-        log.debug("ids : {}", ids);
-
-        return ids;
+        return toDo.get(0);
     }
 
     @Override

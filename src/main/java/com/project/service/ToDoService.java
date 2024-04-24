@@ -10,9 +10,9 @@ public interface ToDoService {
 
     List<ToDo> getAllToDoItems();
 
-    boolean updateOrSaveToDoItemInDB(ToDo toDo);
+    ToDo findItemsById(Integer id);
 
     boolean updateStatus(Integer id);
 
-    ToDo findItemsById(Integer id);
+    boolean updateOrSaveToDoItemInDB(ToDo toDo);
 }

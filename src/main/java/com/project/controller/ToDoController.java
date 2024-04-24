@@ -22,13 +22,11 @@ public class ToDoController {
     @GetMapping("/addToDoItem")
     public String addToDoItem(Model model) {
         model.addAttribute("todo", new ToDo());
-
         return "addToDoItem";
     }
 
     @GetMapping({"/", "viewToDoList"})
     public String viewAllToDoItems(Model model, @ModelAttribute("message") String message) {
-        log.debug("Inside viewAllToDoItems.");
         model.addAttribute("list", toDoService.getAllToDoItems());
         model.addAttribute("message", message);
 
@@ -40,13 +38,10 @@ public class ToDoController {
         log.debug("Inside saveToDoItem. toDoDTO: {}", toDo);
 
         if (toDoService.updateOrSaveToDoItemInDB(toDo)) {
-            redirectAttributes.addAttribute("code", 0);
-            redirectAttributes.addAttribute("message", "Save Success");
+            redirectAttributes.addFlashAttribute("message", "Save Success");
             return "redirect:/viewToDoList";
         }
-
-        redirectAttributes.addAttribute("code", -1);
-        redirectAttributes.addAttribute("message", "Save Failure");
+        redirectAttributes.addFlashAttribute("message", "Save Failure");
         return "redirect:/addToDoItem";
     }
 
@@ -54,25 +49,22 @@ public class ToDoController {
     public String deleteToDoItem(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
         try {
             toDoService.deleteById(id);
-            redirectAttributes.addAttribute("code", 0);
-            redirectAttributes.addAttribute("message", "Delete Success");
+            redirectAttributes.addFlashAttribute("message", "Delete Success");
         } catch (Exception exception) {
-            redirectAttributes.addAttribute("code", -1);
-            redirectAttributes.addAttribute("message", "Delete Failure");
+            redirectAttributes.addFlashAttribute("message", "Delete Failure");
         }
         return "redirect:/viewToDoList";
     }
 
     @GetMapping("/updateToDoStatus/{id}")
     public String updateToDoStatus(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
-        log.debug("updateToDoStatus id: {}", id);
+
         if (toDoService.updateStatus(id)) {
             redirectAttributes.addFlashAttribute("message", "Update Success");
             return "redirect:/viewToDoList";
         }
         redirectAttributes.addFlashAttribute("message", "Update Failure");
         return "redirect:/viewToDoList";
-
     }
 
     @GetMapping("/editToDoItem/{id}")
@@ -88,7 +80,6 @@ public class ToDoController {
             redirectAttributes.addFlashAttribute("message", "Edit Success");
             return "redirect:/viewToDoList";
         }
-
         redirectAttributes.addFlashAttribute("message", "Edit Failure");
         return "redirect:/editToDoItem/" + todo.getId();
     }
