@@ -9,7 +9,7 @@ import java.util.Date;
 
 @Data
 @Entity
-@Table(name = "todotable")
+@Table(name = "todo_list")
 public class ToDo {
 
     @Id

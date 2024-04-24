@@ -35,7 +35,6 @@ public class ToDoController {
 
     @PostMapping("/saveToDoItem")
     public String saveToDoItem(@ModelAttribute ToDo toDo, RedirectAttributes redirectAttributes) {
-        log.debug("Inside saveToDoItem. toDoDTO: {}", toDo);
 
         if (toDoService.updateOrSaveToDoItemInDB(toDo)) {
             redirectAttributes.addFlashAttribute("message", "Save Success");
@@ -47,6 +46,7 @@ public class ToDoController {
 
     @GetMapping("/deleteToDoItem/{id}")
     public String deleteToDoItem(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
+
         try {
             toDoService.deleteById(id);
             redirectAttributes.addFlashAttribute("message", "Delete Success");
@@ -75,7 +75,7 @@ public class ToDoController {
 
     @PostMapping("/editSaveToDoItem")
     public String editSaveToDoItem(ToDo todo, RedirectAttributes redirectAttributes) {
-        log.debug("Todo :{}", todo);
+
         if (toDoService.updateOrSaveToDoItemInDB(todo)) {
             redirectAttributes.addFlashAttribute("message", "Edit Success");
             return "redirect:/viewToDoList";

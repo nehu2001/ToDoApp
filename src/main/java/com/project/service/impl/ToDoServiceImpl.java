@@ -19,12 +19,9 @@ public class ToDoServiceImpl implements ToDoService {
     @Override
     public boolean updateStatus(Integer id) {
         List<ToDo> toDo = toDoRepository.findToDoById(id);
-        log.debug("todo: {}", toDo);
-        ToDo ids = toDo.get(0);
-
-        log.debug("ids : {}", ids);
-        ids.setStatus("Completed");
-        return updateOrSaveToDoItemInDB(ids);
+        ToDo todoData = toDo.get(0);
+        todoData.setStatus("Completed");
+        return updateOrSaveToDoItemInDB(todoData);
     }
 
     @Override
@@ -35,7 +32,6 @@ public class ToDoServiceImpl implements ToDoService {
 
     @Override
     public boolean updateOrSaveToDoItemInDB(ToDo toDo) {
-        log.debug("Inside saveToDoItemInDB: {}", toDo);
 
         try {
             toDoRepository.save(toDo);
@@ -43,8 +39,6 @@ public class ToDoServiceImpl implements ToDoService {
         } catch (Exception exception) {
             log.error("Exception while saving. Error: {}", exception.getMessage(), exception);
         }
-
-        log.debug("Leaving saveToDoItemInDB: {}", toDo);
         return false;
     }
 
