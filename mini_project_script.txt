@@ -1,14 +1,14 @@
 create database ToDoApp;
 use ToDoApp;
 
-CREATE TABLE todotable (
-    id int NOT NULL,
+CREATE TABLE todo_list (
+    id int NOT NULL AUTO_INCREMENT,
     title varchar(20),
     date datetime,
     status varchar(30),
     PRIMARY KEY (ID)
 );
 
-desc todotable;
+desc todo_list;
 
-select * from todotable;
+select * from todo_list;
