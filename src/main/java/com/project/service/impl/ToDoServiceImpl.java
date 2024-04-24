@@ -45,7 +45,6 @@ public class ToDoServiceImpl implements ToDoService {
         log.debug("Inside saveToDoItemInDB: {}", toDo);
 
         try {
-//            ToDo todo = toDoTransformer.toEntity(toDo);
             toDoRepository.save(toDo);
             return true;
         } catch (Exception exception) {

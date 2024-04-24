@@ -36,7 +36,7 @@ public class ToDoController {
     }
 
     @PostMapping("/saveToDoItem")
-    public String saveToDoItem(@ModelAttribute ToDo toDo, RedirectAttributes redirectAttributes, Model model) {
+    public String saveToDoItem(@ModelAttribute ToDo toDo, RedirectAttributes redirectAttributes) {
         log.debug("Inside saveToDoItem. toDoDTO: {}", toDo);
 
         if (toDoService.updateOrSaveToDoItemInDB(toDo)) {
