@@ -39,28 +39,57 @@ public class ToDoController {
     public String saveToDoItem(@ModelAttribute ToDo toDo, RedirectAttributes redirectAttributes, Model model) {
         log.debug("Inside saveToDoItem. toDoDTO: {}", toDo);
 
-        if (toDoService.saveToDoItemInDB(toDo)) {
+        if (toDoService.updateOrSaveToDoItemInDB(toDo)) {
             redirectAttributes.addAttribute("code", 0);
-            redirectAttributes.addAttribute("message","Save Success");
-            System.out.println("redirectAttributes = " + redirectAttributes);
+            redirectAttributes.addAttribute("message", "Save Success");
             return "redirect:/viewToDoList";
         }
 
         redirectAttributes.addAttribute("code", -1);
-        redirectAttributes.addAttribute("message","Save Failure");
+        redirectAttributes.addAttribute("message", "Save Failure");
         return "redirect:/addToDoItem";
     }
 
     @GetMapping("/deleteToDoItem/{id}")
     public String deleteToDoItem(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
-        try{
+        try {
             toDoService.deleteById(id);
             redirectAttributes.addAttribute("code", 0);
-            redirectAttributes.addAttribute("message","Delete Success");
-        }catch(Exception exception){
+            redirectAttributes.addAttribute("message", "Delete Success");
+        } catch (Exception exception) {
             redirectAttributes.addAttribute("code", -1);
-            redirectAttributes.addAttribute("message","Delete Failure");
+            redirectAttributes.addAttribute("message", "Delete Failure");
         }
         return "redirect:/viewToDoList";
+    }
+
+    @GetMapping("/updateToDoStatus/{id}")
+    public String updateToDoStatus(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
+        log.debug("updateToDoStatus id: {}", id);
+        if (toDoService.updateStatus(id)) {
+            redirectAttributes.addFlashAttribute("message", "Update Success");
+            return "redirect:/viewToDoList";
+        }
+        redirectAttributes.addFlashAttribute("message", "Update Failure");
+        return "redirect:/viewToDoList";
+
+    }
+
+    @GetMapping("/editToDoItem/{id}")
+    public String editToDoItem(@PathVariable Integer id, Model model) {
+        model.addAttribute("todo", toDoService.findItemsById(id));
+        return "editToDoItem";
+    }
+
+    @PostMapping("/editSaveToDoItem")
+    public String editSaveToDoItem(ToDo todo, RedirectAttributes redirectAttributes) {
+        log.debug("Todo :{}", todo);
+        if (toDoService.updateOrSaveToDoItemInDB(todo)) {
+            redirectAttributes.addFlashAttribute("message", "Edit Success");
+            return "redirect:/viewToDoList";
+        }
+
+        redirectAttributes.addFlashAttribute("message", "Edit Failure");
+        return "redirect:/editToDoItem/" + todo.getId();
     }
 }

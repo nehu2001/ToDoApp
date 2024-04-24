@@ -6,11 +6,13 @@ import java.util.List;
 
 public interface ToDoService {
 
-    boolean saveToDoItemInDB(ToDo toDo);
-
-
     void deleteById(Integer id);
 
-
     List<ToDo> getAllToDoItems();
+
+    boolean updateOrSaveToDoItemInDB(ToDo toDo);
+
+    boolean updateStatus(Integer id);
+
+    ToDo findItemsById(Integer id);
 }

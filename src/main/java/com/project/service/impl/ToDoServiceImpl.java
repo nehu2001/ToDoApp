@@ -9,7 +9,6 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Log4j2
 @Service
@@ -20,12 +19,34 @@ public class ToDoServiceImpl implements ToDoService {
     private final ToDoTransformer toDoTransformer;
 
     @Override
-    public boolean saveToDoItemInDB(ToDo toDo) {
+    public boolean updateStatus(Integer id) {
+        List<ToDo> toDo = toDoRepository.findToDoById(id);
+        log.debug("todo: {}", toDo);
+        ToDo ids = toDo.get(0);
+
+        log.debug("ids : {}", ids);
+        ids.setStatus("Completed");
+        return updateOrSaveToDoItemInDB(ids);
+    }
+
+    @Override
+    public ToDo findItemsById(Integer id) {
+        List<ToDo> toDo = toDoRepository.findToDoById(id);
+        log.debug("todo: {}", toDo);
+        ToDo ids = toDo.get(0);
+
+        log.debug("ids : {}", ids);
+
+        return ids;
+    }
+
+    @Override
+    public boolean updateOrSaveToDoItemInDB(ToDo toDo) {
         log.debug("Inside saveToDoItemInDB: {}", toDo);
 
         try {
-            ToDo todo = toDoTransformer.toEntity(toDo);
-            toDoRepository.save(todo);
+//            ToDo todo = toDoTransformer.toEntity(toDo);
+            toDoRepository.save(toDo);
             return true;
         } catch (Exception exception) {
             log.error("Exception while saving. Error: {}", exception.getMessage(), exception);
@@ -42,9 +63,6 @@ public class ToDoServiceImpl implements ToDoService {
 
     @Override
     public List<ToDo> getAllToDoItems() {
-        log.debug("Inside getAllToDoItems");
-        List<ToDo> todoList = toDoRepository.findAll();
-        log.debug("Leaving getAllToDoItems with {} items", todoList.size());
-        return todoList;
+        return toDoRepository.findAll();
     }
 }
