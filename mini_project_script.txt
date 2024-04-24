@@ -1,0 +1,14 @@
+create database ToDoApp;
+use ToDoApp;
+
+CREATE TABLE todotable (
+    id int NOT NULL,
+    title varchar(20),
+    date datetime,
+    status varchar(30),
+    PRIMARY KEY (ID)
+);
+
+desc todotable;
+
+select * from todotable;
