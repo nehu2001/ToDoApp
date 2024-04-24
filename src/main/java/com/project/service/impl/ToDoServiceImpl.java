@@ -3,7 +3,6 @@ package com.project.service.impl;
 import com.project.model.ToDo;
 import com.project.repository.ToDoRepository;
 import com.project.service.ToDoService;
-import com.project.transformer.ToDoTransformer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -16,7 +15,6 @@ import java.util.List;
 public class ToDoServiceImpl implements ToDoService {
 
     private final ToDoRepository toDoRepository;
-    private final ToDoTransformer toDoTransformer;
 
     @Override
     public boolean updateStatus(Integer id) {
